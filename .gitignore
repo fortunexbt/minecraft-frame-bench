@@ -1,0 +1,12 @@
+build/
+evidence/
+bench-output/
+__pycache__/
+*.pyc
+*.log
+*.csv
+*.png
+*.zip
+*.jar
+*.class
+.DS_Store
