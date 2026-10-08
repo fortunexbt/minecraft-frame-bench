@@ -36,7 +36,7 @@ Copy `minescript/` scripts into your disposable instance's `.minecraft/minescrip
 
 ## Test
 
-`build.py` compiles the agent and runs `tests/PolicyTest.java` (the AFK and throttle-policy guard) before packaging, so a successful build means the policy tests passed. CI runs the same build on Linux with Temurin 25, plus `ruff` and a byte-compile of the Python scripts. Benchmarks themselves need a real Minecraft install and are not run in CI.
+`build.py` compiles the agent and runs `tests/PolicyTest.java` (the AFK and throttle-policy guard) before packaging, so a successful build means the policy tests passed. CI runs the same build (minus the macOS-only input helper) on Linux with Temurin 25, plus `ruff` and a byte-compile of the Python scripts. Benchmarks themselves need a real Minecraft install and are not run in CI.
 
 ## Capture
 
