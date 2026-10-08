@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Build the thin agent without downloading or bundling Minecraft."""
-import argparse,hashlib,pathlib,shutil,subprocess,tempfile
+import argparse,hashlib,pathlib,shutil,subprocess,sys,tempfile
 p=argparse.ArgumentParser()
 p.add_argument('--jdk',type=pathlib.Path,required=True)
 p.add_argument('--asm',type=pathlib.Path,required=True)
@@ -19,6 +19,6 @@ with tempfile.TemporaryDirectory(prefix='frame-bench-build-') as tmp:
  subprocess.run([str(a.jdk/'bin/jar'),'--create','--file',str(out/'frame-sink.jar'),'-C',str(classes),'m4peak/FrameSink.class'],check=True)
  members=sorted(str(x.relative_to(classes)) for x in (classes/'m4peak').glob('FrameAgent*.class'))
  subprocess.run([str(a.jdk/'bin/jar'),'--create','--file',str(out/'frame-agent.jar'),'--manifest',str(manifest),'-C',str(classes),members[0],*sum((['-C',str(classes),m] for m in members[1:]),[])],check=True)
-if shutil.which('swiftc'):
+if sys.platform=='darwin' and shutil.which('swiftc'):
  subprocess.run(['swiftc',str(root/'src/controller.swift'),'-O','-o',str(out/'controller')],check=True)
 for file in sorted(out.iterdir()):print(file.name,hashlib.sha256(file.read_bytes()).hexdigest())
