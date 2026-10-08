@@ -1,0 +1,23 @@
+name: CI
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '25'
+      - name: Lint
+        run: pipx run ruff check --select F,E9 .
+      - name: Compile Minescript scripts
+        run: python3 -m py_compile minescript/*.py scripts/*.py
+      - name: Build agent and run policy tests
+        run: |
+          curl -sSfLo asm.jar https://repo.maven.apache.org/maven2/org/ow2/asm/asm/9.10.1/asm-9.10.1.jar
+          python3 build.py --jdk "$JAVA_HOME" --asm asm.jar

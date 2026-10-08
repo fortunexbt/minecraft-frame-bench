@@ -1,5 +1,7 @@
 # Minecraft Frame Bench
 
+[![CI](https://github.com/fortunexbt/minecraft-frame-bench/actions/workflows/ci.yml/badge.svg)](https://github.com/fortunexbt/minecraft-frame-bench/actions/workflows/ci.yml)
+
 A small harness for repeatable measurements of the **real Minecraft Java client** on macOS. Developed during actual Apple Silicon shader comparisons. Active validation is ongoing; this is not a general benchmark suite or a claim about the fastest configuration.
 
 The Java agent samples `System.nanoTime()` at the return of `Minecraft.renderFrame(boolean)`, with a `runTick(boolean)` fallback. It buffers timestamps, checks focus, and writes CSV after the capture. Minescript supplies timed camera pans and movement while recording actual positions and world ticks. An optional native Swift helper sends macOS input through existing Accessibility permission; it neither requests nor changes permissions.
@@ -31,6 +33,10 @@ Keep `frame-agent.jar` and `frame-sink.jar` together. Add this JVM argument thro
 ```
 
 Copy `minescript/` scripts into your disposable instance's `.minecraft/minescript/` directory. Their default output is `.minecraft/minescript/bench-output`; an optional `MCBENCH_EVIDENCE` environment variable overrides it and must match the agent argument.
+
+## Test
+
+`build.py` compiles the agent and runs `tests/PolicyTest.java` (the AFK and throttle-policy guard) before packaging, so a successful build means the policy tests passed. CI runs the same build on Linux with Temurin 25, plus `ruff` and a byte-compile of the Python scripts. Benchmarks themselves need a real Minecraft install and are not run in CI.
 
 ## Capture
 

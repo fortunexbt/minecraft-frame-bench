@@ -1,4 +1,3 @@
-import os
 import sys,time,json,os,math
 import minescript as m
 run=sys.argv[1]; duration=int(sys.argv[2]); kind=sys.argv[3]
